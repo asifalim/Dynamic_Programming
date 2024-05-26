@@ -46,6 +46,19 @@ signed main()
             }
         }
         cout<<dp[n][mx_wg]<<endl;
+
+       //Recursive way
+         int64_t rec(int i, int profit)
+         {
+         if(i == n)return (profit ? 2e9 : 0);
+         if(~dp[i][profit])return dp[i][profit];
+         int64_t ans = 2e9;
+         if(ar[i][1] <= profit)ans = min(ans, ar[i][0] + rec(i + 1, profit - ar[i][1]));
+         ans = min(ans, rec(i + 1, profit));
+        return dp[i][profit] = ans;
+        }
+       for(int i = 0; i < n; i++)cin >> ar[i][0] >> ar[i][1], cost += ar[i][1];
+    for(int i = cost; i; i--)if(rec(0, i) <= x)return cout << i << endl, 0;
         
         //Constraints--------->
         //# 1 ≤N≤ 100 # 1 ≤W≤ 1e5 # pro ≤ 1e9
